@@ -102,17 +102,35 @@ window.onclick = function(event) {
 const editButton = '<a href="https://ims.site.localhost/docs/strategy/#"class="btn btn-primary btn-sm"style="height: 30px;"><i class="fa fa-pencil"></i></a>';
 function loadPosition(employee,fun){
   var table = document.getElementById(fun);
+  var html = `
+    <div style="padding-top:20px;">
+      <h6 style="text-align:center;">${employee["firstName"]} ${employee["lastName"]}</h6>
+      <p style="text-align:center;">${employee["function"]}</p>
+    </div>
+  `;
+  table.innerHTML+=html;
+  /*var table = document.getElementById(fun);
   let row = table.insertRow();
+  row.setAttribute("id",employee["id"] , 0);
 
   let name = row.insertCell(0);
   name.innerHTML = employee["firstName"]+" "+employee["lastName"];
 
   let position = row.insertCell(1);
-  position.innerHTML = employee["position"];
+  position.innerHTML = employee["position"];*/
+
+  // row.addEventListener("click", showDetails);
 
   /*let edit = row.insertCell(2);
   edit.innerHTML = editButton;*/
 }
+
+function showDetails(employee){
+  let targetID = employee.target.parentElement.id;
+
+  alert(targetID);
+}
+
 function loadEmployees(data) {
   var table = document.getElementById('table-user-input-8');
   data = companyX["employees"];
