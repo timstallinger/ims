@@ -101,14 +101,21 @@ window.onclick = function(event) {
 
 const editButton = '<a href="https://ims.site.localhost/docs/strategy/#"class="btn btn-primary btn-sm"style="height: 30px;"><i class="fa fa-pencil"></i></a>';
 function loadPosition(employee,fun){
-  var table = document.getElementById(fun);
+  var position = document.getElementById(fun);
+  var keys = Object.keys(employee);
+  var values = ""
+  for(var i = 3; i < keys.length; i++){
+    if (keys[i] != "function"){
+      values += `<p style="text-align:center;">${keys[i]}: ${employee[keys[i]]}</p>`;
+    }
+  }
   var html = `
-    <div style="padding-top:20px;">
+    <div class="card" style="padding-top:20px;">
       <h6 style="text-align:center;">${employee["firstName"]} ${employee["lastName"]}</h6>
-      <p style="text-align:center;">${employee["function"]}</p>
+      ${values}
     </div>
   `;
-  table.innerHTML+=html;
+  position.innerHTML+=html;
   /*var table = document.getElementById(fun);
   let row = table.insertRow();
   row.setAttribute("id",employee["id"] , 0);
