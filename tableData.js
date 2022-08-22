@@ -112,22 +112,10 @@ var companyX ={
   }
 
 
-window.onclick = function(event) {
-  if (!event.target.matches('fas fa-ellipsis-h')) {
-    var dropdowns = document.getElementsByClassName("dropdown-menu");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      console.log(openDropdown.classList)
-      if (openDropdown.classList.contains('hidden')) {
-        openDropdown.classList.remove('hidden');
-      }
-    }
-  }
-}
-
 const editButton = '<a href="https://ims.site.localhost/docs/strategy/#"class="btn btn-primary btn-sm"style="height: 30px;"><i class="fa fa-pencil"></i></a>';
 function loadPosition(employee,fun){
+  // Employee in entsprechende Card laden
+
   var position = document.getElementById(fun);
   var keys = Object.keys(employee);
   var values = ""
@@ -136,52 +124,25 @@ function loadPosition(employee,fun){
       values += `<p style="text-align:center;">${keys[i]}: ${employee[keys[i]]}</p>`;
     }
   }
+  
+  // In html kommen die Kontaktdetails für jede angestellte Person
   var html = ``
-  if(fun == "Management"){
-    var html = `
-    <div class="card" style="padding-top:20px; width: 50%; float:left;">
+  // Wenn Funktion Management ist, dann können 2 cards nebeneinander, sonst nur eine
+  html = `
+    <div class="card" style="padding-top:20px;${(fun == "Management")? "width: 50%; float:left;" :""}">
       <h6 style="text-align:center;">${employee["firstName"]} ${employee["lastName"]}</h6>
       ${values}
     </div>
-  `;
-  }
-  else {
-    var html = `
-      <div class="card" style="padding-top:20px;">
-        <h6 style="text-align:center;">${employee["firstName"]} ${employee["lastName"]}</h6>
-        ${values}
-      </div>
-  `;
-}
+    `;
   position.innerHTML+=html;
-  /*var table = document.getElementById(fun);
-  let row = table.insertRow();
-  row.setAttribute("id",employee["id"] , 0);
-
-  let name = row.insertCell(0);
-  name.innerHTML = employee["firstName"]+" "+employee["lastName"];
-
-  let position = row.insertCell(1);
-  position.innerHTML = employee["position"];*/
-
-  // row.addEventListener("click", showDetails);
-
-  /*let edit = row.insertCell(2);
-  edit.innerHTML = editButton;*/
-}
-
-function showDetails(employee){
-  let targetID = employee.target.parentElement.id;
-
-  alert(targetID);
 }
 
 function loadEmployees(data) {
   var table = document.getElementById('table-user-input-8');
   data = companyX["employees"];
-  //delete all rows from table
 
   data.forEach( item => {
+    // Die folgenden Zeilen sind nur für die untere Tabelle des Management Boards
     let row = table.insertRow();
     let firstName = row.insertCell(0);
     firstName.innerHTML = item["firstName"];
@@ -194,10 +155,13 @@ function loadEmployees(data) {
     let phone = row.insertCell(4);
     phone.innerHTML = item["phone"];
     
+    //loadPosition lädt jede Person in entsprechende Card
     loadPosition(item, item["function"]);
   });
 }
 function showColumns() {
+  // Hier werden die Spalten der Tabelle angezeigt, nur falls chechbox gecheckt ist.
+
   // Get the checkbox values
   var table = document.getElementById('table-user-input-8');
   var sfName = document.getElementById("subscribeFName");
