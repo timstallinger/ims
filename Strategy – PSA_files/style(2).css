@@ -6342,6 +6342,7 @@ fieldset:disabled
   background-color: transparent;
   border-bottom: 2px solid #eaedf0;
   width: 100%;
+  text-align: center;
 }
 
 .card-header:first-child {
@@ -6458,7 +6459,6 @@ fieldset:disabled
 
 .card-header {
   border-bottom-width: 0;
-  display: flex;
   gap: 0.5rem;
   align-items: center;
   align-content: center;

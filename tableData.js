@@ -10,6 +10,33 @@ var companyX ={
         "position": "CEO",
       },
       {
+        "id": 10,
+        "firstName": "Mary",
+        "lastName": "Lamb",
+        "phone": "29",
+        "email": "MJ@gmail.com",
+        "function": "Management",
+        "position": "CEO",
+      },
+      {
+        "id": 11,
+        "firstName": "Michael",
+        "lastName": "Smith",
+        "phone": "29",
+        "email": "MS@gmail.com",
+        "function": "Management",
+        "position": "CEO",
+      },
+      {
+        "id": 12,
+        "firstName": "Pablo",
+        "lastName": "Sanchez",
+        "phone": "29",
+        "email": "PS@gmail.com",
+        "function": "Management",
+        "position": "CEO",
+      },
+      {
         "id": 2,
         "firstName": "Jane",
         "lastName": "Doe",
@@ -109,12 +136,23 @@ function loadPosition(employee,fun){
       values += `<p style="text-align:center;">${keys[i]}: ${employee[keys[i]]}</p>`;
     }
   }
-  var html = `
-    <div class="card" style="padding-top:20px;">
+  var html = ``
+  if(fun == "Management"){
+    var html = `
+    <div class="card" style="padding-top:20px; width: 50%; float:left;">
       <h6 style="text-align:center;">${employee["firstName"]} ${employee["lastName"]}</h6>
       ${values}
     </div>
   `;
+  }
+  else {
+    var html = `
+      <div class="card" style="padding-top:20px;">
+        <h6 style="text-align:center;">${employee["firstName"]} ${employee["lastName"]}</h6>
+        ${values}
+      </div>
+  `;
+}
   position.innerHTML+=html;
   /*var table = document.getElementById(fun);
   let row = table.insertRow();
