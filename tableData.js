@@ -111,8 +111,16 @@ var companyX ={
     ]
   }
 
-
 const editButton = '<a href="https://ims.site.localhost/docs/strategy/#"class="btn btn-primary btn-sm"style="height: 30px;"><i class="fa fa-pencil"></i></a>';
+var config = {table:true,
+  firstName:true,
+  lastName:true,
+  function:true,
+  email:true,
+  position:true,
+  phone:true,
+};
+
 function loadPosition(employee,fun){
   // Employee in entsprechende Card laden
 
@@ -120,11 +128,12 @@ function loadPosition(employee,fun){
   var keys = Object.keys(employee);
   var values = ""
   for(var i = 3; i < keys.length; i++){
-    if (keys[i] != "function"){
+    // if keys[i] does not match any entry in config, do something
+    if(config[keys[i]]){
       values += `<p style="text-align:center;">${keys[i]}: ${employee[keys[i]]}</p>`;
     }
   }
-  
+
   // In html kommen die Kontaktdetails für jede angestellte Person
   var html = ``
   // Wenn Funktion Management ist, dann können 2 cards nebeneinander, sonst nur eine
@@ -159,25 +168,46 @@ function loadEmployees(data) {
     loadPosition(item, item["function"]);
   });
 }
+
 function showColumns() {
   // Hier werden die Spalten der Tabelle angezeigt, nur falls chechbox gecheckt ist.
 
   // Get the checkbox values
   var table = document.getElementById('table-user-input-8');
-  var sfName = document.getElementById("subscribeFName");
-  var slName = document.getElementById("subscribeLName");
-  var sFunction = document.getElementById("subscribeFunction");
-  var sEmail = document.getElementById("subscribeEmail");
-  var sPhone = document.getElementById("subscribePhone");
+  config["firstName"] = document.getElementById("subscribeFName").checked;
+  config["lastName"] = document.getElementById("subscribeLName").checked;
+  config["function"] = document.getElementById("subscribeFunction").checked;
+  config["email"] = document.getElementById("subscribeEmail").checked;
+  config["phone"] = document.getElementById("subscribePhone").checked;
+  
   
   //display corresponding columns
   for (var i = 0, row; row = table.rows[i]; i++) {
     if(i!=2 && i!=1){
-      row.cells[0].style.display = sfName.checked == true ? "" : "none";
-      row.cells[1].style.display = slName.checked == true ? "" : "none";
-      row.cells[2].style.display = sFunction.checked == true ? "" : "none";
-      row.cells[3].style.display = sEmail.checked == true ? "" : "none";
-      row.cells[4].style.display = sPhone.checked == true ? "" : "none";
+      row.cells[0].style.display = config["firstName"] ? "" : "none";
+      row.cells[1].style.display = config["lastName"] ? "" : "none";
+      row.cells[2].style.display = config["function"] ? "" : "none";
+      row.cells[3].style.display = config["email"] ? "" : "none";
+      row.cells[4].style.display = config["phone"] ? "" : "none";
     }
   }
+  reloadPosition();
+}
+
+
+function reloadPosition() {
+  // reload wenn das Konfigurationsarray sich ändert (Attribute ausschließen)
+  // Jede Card leeren
+  var functions = ["Administration","Logistics","Production","Purchases","Management"];
+  functions.forEach(function(fun){
+    var position = document.getElementById(fun);
+    position.innerHTML = "";
+  },this);
+
+  // refill all cards
+  var data = companyX["employees"];
+  data.forEach( item => {    
+    //loadPosition lädt jede Person in entsprechende Card
+    loadPosition(item, item["function"]);
+  });
 }
