@@ -112,6 +112,8 @@ var companyX ={
   }
 
 const editButton = '<a href="https://ims.site.localhost/docs/strategy/#"class="btn btn-primary btn-sm"style="height: 30px;"><i class="fa fa-pencil"></i></a>';
+
+// Konfigurationsarray mit Bools, ob entsprechendes Attribut in Tabelle und Card angezeigt werden soll
 var config = {table:true,
   firstName:true,
   lastName:true,
@@ -121,7 +123,7 @@ var config = {table:true,
   phone:true,
 };
 
-function loadPosition(employee,fun){
+function loadInCard(employee,fun){
   // Employee in entsprechende Card laden
 
   var position = document.getElementById(fun);
@@ -165,12 +167,13 @@ function loadEmployees(data) {
     phone.innerHTML = item["phone"];
     
     //loadPosition lädt jede Person in entsprechende Card
-    loadPosition(item, item["function"]);
+    loadInCard(item, item["function"]);
   });
 }
 
 function showColumns() {
-  // Hier werden die Spalten der Tabelle angezeigt, nur falls chechbox gecheckt ist.
+  // Wird aufgerufen, wenn eine checkbox sich ändert
+  // Hier werden die Spalten der Tabelle angezeigt, nur falls chechbox gecheckt ist. UND anschließened wird reloadCards ausgelöst
 
   // Get the checkbox values
   var table = document.getElementById('table-user-input-8');
@@ -180,8 +183,7 @@ function showColumns() {
   config["email"] = document.getElementById("subscribeEmail").checked;
   config["phone"] = document.getElementById("subscribePhone").checked;
   
-  
-  //display corresponding columns
+  //display corresponding columns if checkbox is checked
   for (var i = 0, row; row = table.rows[i]; i++) {
     if(i!=2 && i!=1){
       row.cells[0].style.display = config["firstName"] ? "" : "none";
@@ -191,12 +193,13 @@ function showColumns() {
       row.cells[4].style.display = config["phone"] ? "" : "none";
     }
   }
-  reloadPosition();
+  
+  // reloadPosition um die Cards zu aktualisieren
+  reloadCards();
 }
 
 
-function reloadPosition() {
-  // reload wenn das Konfigurationsarray sich ändert (Attribute ausschließen)
+function reloadCards() {
   // Jede Card leeren
   var functions = ["Administration","Logistics","Production","Purchases","Management"];
   functions.forEach(function(fun){
@@ -204,10 +207,10 @@ function reloadPosition() {
     position.innerHTML = "";
   },this);
 
-  // refill all cards
+  // Cards neu befüllen
   var data = companyX["employees"];
   data.forEach( item => {    
     //loadPosition lädt jede Person in entsprechende Card
-    loadPosition(item, item["function"]);
+    loadInCard(item, item["function"]);
   });
 }
