@@ -140,7 +140,7 @@ function loadInCard(employee,fun){
   var html = ``
   // Wenn Funktion Management ist, dann können 2 cards nebeneinander, sonst nur eine
   html = `
-    <div class="card" style="padding-top:20px;${(fun == "Management")? "width: 50%; float:left;" :""}">
+    <div style="padding-top:20px;${(fun == "Management")? "width: 50%; float:left;" :""}">
       <h6 style="text-align:center;">${employee["firstName"]} ${employee["lastName"]}</h6>
       ${values}
     </div>
@@ -154,7 +154,7 @@ function loadEmployees(data) {
 
   data.forEach( item => {
     // Die folgenden Zeilen sind nur für die untere Tabelle des Management Boards
-    let row = table.insertRow();
+    /*let row = table.insertRow();
     let firstName = row.insertCell(0);
     firstName.innerHTML = item["firstName"];
     let lastName = row.insertCell(1);
@@ -165,7 +165,7 @@ function loadEmployees(data) {
     email.innerHTML = item["email"];
     let phone = row.insertCell(4);
     phone.innerHTML = item["phone"];
-    
+    */
     //loadPosition lädt jede Person in entsprechende Card
     loadInCard(item, item["function"]);
   });
@@ -176,7 +176,7 @@ function showColumns() {
   // Hier werden die Spalten der Tabelle angezeigt, nur falls chechbox gecheckt ist. UND anschließened wird reloadCards ausgelöst
 
   // Get the checkbox values
-  var table = document.getElementById('table-user-input-8');
+  /*var table = document.getElementById('table-user-input-8');
   config["firstName"] = document.getElementById("subscribeFName").checked;
   config["lastName"] = document.getElementById("subscribeLName").checked;
   config["function"] = document.getElementById("subscribeFunction").checked;
@@ -192,7 +192,7 @@ function showColumns() {
       row.cells[3].style.display = config["email"] ? "" : "none";
       row.cells[4].style.display = config["phone"] ? "" : "none";
     }
-  }
+  }*/
   
   // reloadPosition um die Cards zu aktualisieren
   reloadCards();
